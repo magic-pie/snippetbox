@@ -17,6 +17,7 @@ func (app *application) routes() http.Handler {
 
 	fileServer := http.FileServer(http.FS(ui.Files))
 
+	router.HandlerFunc(http.MethodGet, "/ping", ping)
 	router.Handler(http.MethodGet, "/staitc/*filepath", fileServer)
 
 	dynamic := alice.New(app.sessionManager.LoadAndSave, noSurf, app.authenticate)
