@@ -25,6 +25,7 @@ type application struct {
 	templateCache  map[string]*template.Template
 	formDecoder    *form.Decoder
 	sessionManager *scs.SessionManager
+	debug          bool
 }
 
 func main() {
@@ -38,6 +39,7 @@ func main() {
 
 	addr := os.Getenv("ADDR")
 	dsn := os.Getenv("DSN")
+	debug := os.Getenv("DEBUG") == "true"
 
 	db, err := openDB(dsn)
 	if err != nil {
@@ -64,6 +66,7 @@ func main() {
 		templateCache:  templateCache,
 		formDecoder:    form.NewDecoder(),
 		sessionManager: sessionManager,
+		debug:          debug,
 	}
 
 	srv := &http.Server{
