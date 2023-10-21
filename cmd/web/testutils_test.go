@@ -15,10 +15,16 @@ import (
 
 	"github.com/alexedwards/scs/v2"
 	"github.com/go-playground/form/v4"
+	"github.com/joho/godotenv"
 	"snippetbox.magic-pie.net/internal/models/mocks"
 )
 
 func newTestApplication(t *testing.T) *application {
+	err := godotenv.Load("../../.env.test")
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	templateCache, err := newTemplateCache()
 	if err != nil {
 		t.Fatal(err)
