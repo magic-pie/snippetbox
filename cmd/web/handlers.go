@@ -210,7 +210,13 @@ func (app *application) userLoginPost(w http.ResponseWriter, r *http.Request) {
 
 	app.sessionManager.Put(r.Context(), "authenticatedUserId", id)
 
-	http.Redirect(w, r, "/snippet/create", http.StatusSeeOther)
+	path := "/snippet/create"
+	backUrl := app.sessionManager.PopString(r.Context(), "backUrl")
+	if backUrl != "" {
+		path = backUrl
+	}
+
+	http.Redirect(w, r, path, http.StatusSeeOther)
 }
 
 func (app *application) userLogoutPost(w http.ResponseWriter, r *http.Request) {
